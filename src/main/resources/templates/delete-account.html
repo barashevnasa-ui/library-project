@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Удаление аккаунта — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Удаление аккаунта</h1>
+    <p class="subtitle">Аккаунт будет удалён без возможности восстановления. Это действие нельзя отменить.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/deleteAccount}" method="post">
+        <label class="check">
+            <input type="checkbox" required> Я понимаю, что аккаунт будет удалён
+        </label>
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/}">Отмена</a>
+            <button class="btn btn-danger" type="submit">Удалить аккаунт</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

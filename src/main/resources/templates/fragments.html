@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Сообщения: flash-атрибуты и атрибуты модели из контроллеров -->
+<div th:fragment="messages">
+    <div class="msg success" role="status" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="msg warning" role="status" th:if="${warningMessage}" th:text="${warningMessage}"></div>
+    <div class="msg info" role="status" th:if="${infoMessage}" th:text="${infoMessage}"></div>
+    <div class="msg error" role="alert" th:if="${globalError}" th:text="${globalError}"></div>
+    <div class="msg error" role="alert" th:if="${error}" th:text="${error}"></div>
+</div>
+</body>
+</html>

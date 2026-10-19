@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мои выдачи — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="top">
+<main class="card wide">
+    <h1>Мои выдачи</h1>
+    <p class="subtitle">Книги, которые у вас на руках и которые нужно вернуть в библиотеку.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>ISBN</th>
+                <th>Вернуть до</th>
+                <th>Состояние</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="l : ${loans}">
+                <td th:text="${l.book.title}"></td>
+                <td th:text="${l.book.isbn}"></td>
+                <td th:text="${l.dueDate}"></td>
+                <td>
+                    <span th:if="${l.dueDate.isBefore(today)}" style="color:#c0392b;font-weight:bold;">Просрочена</span>
+                    <span th:unless="${l.dueDate.isBefore(today)}">В срок</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="empty" th:if="${#lists.isEmpty(loans)}">У вас нет книг, которые нужно вернуть.</p>
+    </div>
+
+    <div class="links">
+        <a th:href="@{/catalog}">Каталог</a>
+        <a th:href="@{/reader/my-reservations}">Мои брони</a>
+        <a th:href="@{/}">На главную</a>
+    </div>
+</main>
+</body>
+</html>

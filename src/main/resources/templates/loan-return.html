@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Возврат книги — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Возврат книги</h1>
+    <p class="subtitle">Укажите ISBN возвращаемой книги и номер читательского билета.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/return}" th:object="${loan}" method="post" novalidate>
+        <div class="field">
+            <label for="bookIsbn">ISBN книги</label>
+            <input id="bookIsbn" type="text" th:field="*{bookIsbn}" autocomplete="off" required>
+            <p class="field-error" th:if="${#fields.hasErrors('bookIsbn')}" th:errors="*{bookIsbn}"></p>
+        </div>
+        <div class="field">
+            <label for="libraryCardNumber">Номер читательского билета</label>
+            <input id="libraryCardNumber" type="text" th:field="*{libraryCardNumber}" autocomplete="off" required>
+            <p class="field-error" th:if="${#fields.hasErrors('libraryCardNumber')}" th:errors="*{libraryCardNumber}"></p>
+        </div>
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/librarian}">Отмена</a>
+            <button class="btn" type="submit">Принять книгу</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

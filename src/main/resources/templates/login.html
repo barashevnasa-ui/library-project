@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вход — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Вход в библиотеку</h1>
+    <p class="subtitle">Введите email и пароль от вашего аккаунта.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/login}" th:object="${loginDto}" method="post" novalidate>
+        <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}" autocomplete="username" required>
+            <p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </div>
+        <div class="field">
+            <label for="password">Пароль</label>
+            <input id="password" type="password" th:field="*{password}" autocomplete="current-password" required>
+            <p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        </div>
+        <label class="check">
+            <input type="checkbox" name="rememberMe" value="true"> Запомнить меня
+        </label>
+        <button class="btn" type="submit">Войти</button>
+    </form>
+
+    <div class="links">
+        <a th:href="@{/registration}">Создать аккаунт</a>
+        <a th:href="@{/recovery}">Забыли пароль?</a>
+    </div>
+</main>
+</body>
+</html>

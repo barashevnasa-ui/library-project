@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Кабинет библиотекаря — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card medium">
+    <h1>Кабинет библиотекаря</h1>
+    <p class="subtitle">Выберите операцию.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="tiles">
+        <a class="tile" th:href="@{/issue}"><strong>Выдать книгу</strong><span>По ISBN и номеру билета</span></a>
+        <a class="tile" th:href="@{/reservation-issue}"><strong>Выдать по брони</strong><span>Поиск броней читателя</span></a>
+        <a class="tile" th:href="@{/return}"><strong>Принять книгу</strong><span>Оформить возврат</span></a>
+        <a class="tile" th:href="@{/book-add}"><strong>Добавить книгу</strong><span>Новая позиция в каталоге</span></a>
+        <a class="tile" th:href="@{/author-add}"><strong>Добавить автора</strong><span>Новый автор в базе</span></a>
+    </div>
+
+    <form class="logout" th:action="@{/logout}" method="post">
+        <button class="btn btn-secondary btn-small" type="submit">Выйти</button>
+    </form>
+</main>
+</body>
+</html>

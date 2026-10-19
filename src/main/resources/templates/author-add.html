@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Добавить автора — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Добавить автора</h1>
+    <p class="subtitle">Новый автор станет доступен при добавлении книг.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/author-add}" th:object="${author}" method="post">
+        <label for="name">Имя автора</label>
+        <input id="name" type="text" th:field="*{name}" placeholder="Например, Лев Толстой" maxlength="255" required>
+        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+        <button class="btn" type="submit">Добавить</button>
+    </form>
+
+    <div class="links">
+        <a th:href="@{/book-add}">Добавить книгу</a>
+        <a th:href="@{/librarian}">В кабинет</a>
+    </div>
+</main>
+</body>
+</html>

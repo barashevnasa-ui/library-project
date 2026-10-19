@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мои брони — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="top">
+<main class="card wide">
+    <h1>Мои брони</h1>
+    <p class="subtitle">Книги, которые вы забронировали. Заберите их в библиотеке до окончания срока брони.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>ISBN</th>
+                <th>Бронь действует до</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${reservations}">
+                <td th:text="${r.book.title}"></td>
+                <td th:text="${r.book.isbn}"></td>
+                <td th:text="${r.expirationDate}"></td>
+                <td th:switch="${r.status.name()}">
+                    <span th:case="'PENDING'">Ожидает выдачи</span>
+                    <span th:case="*" th:text="${r.status}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="empty" th:if="${#lists.isEmpty(reservations)}">У вас пока нет броней.</p>
+    </div>
+
+    <div class="links">
+        <a th:href="@{/catalog}">Каталог</a>
+        <a th:href="@{/}">На главную</a>
+    </div>
+</main>
+</body>
+</html>

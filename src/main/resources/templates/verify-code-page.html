@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Подтверждение почты — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Подтвердите почту</h1>
+    <p class="subtitle" th:if="${email != null or username != null}">
+        Мы отправили код на <strong th:text="${email != null} ? ${email} : ${username}"></strong>.
+    </p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/verify}" method="post">
+        <!-- email приходит из flash-атрибута "username" (после регистрации) или из модели (после ошибки) -->
+        <input type="hidden" name="email" th:if="${email != null or username != null}"
+               th:value="${email != null} ? ${email} : ${username}">
+        <div class="field" th:if="${email == null and username == null}">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" required>
+        </div>
+        <div class="field">
+            <label for="code">Код из письма</label>
+            <input id="code" type="text" name="code" inputmode="numeric" autocomplete="one-time-code" required>
+        </div>
+        <button class="btn" type="submit">Подтвердить</button>
+    </form>
+
+    <div class="links">
+        <a th:href="@{/registration}">Вернуться к регистрации</a>
+    </div>
+</main>
+</body>
+</html>

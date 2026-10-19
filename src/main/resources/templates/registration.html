@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Регистрация — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card medium">
+    <h1>Регистрация читателя</h1>
+    <p class="subtitle">После регистрации мы отправим код подтверждения на указанную почту.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/registration}" th:object="${user}" method="post" novalidate>
+        <div class="grid-2">
+            <div class="field">
+                <label for="firstname">Имя</label>
+                <input id="firstname" type="text" th:field="*{firstname}" autocomplete="given-name" required>
+                <p class="field-error" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></p>
+            </div>
+            <div class="field">
+                <label for="lastname">Фамилия</label>
+                <input id="lastname" type="text" th:field="*{lastname}" autocomplete="family-name" required>
+                <p class="field-error" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}" autocomplete="email" required>
+            <p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </div>
+        <div class="field">
+            <label for="phonenumber">Номер телефона</label>
+            <input id="phonenumber" type="tel" th:field="*{phonenumber}" placeholder="+375291234567" autocomplete="tel" required>
+            <p class="hint">Формат: +375 и код оператора (25, 29, 33, 44), затем 7 цифр.</p>
+            <p class="field-error" th:if="${#fields.hasErrors('phonenumber')}" th:errors="*{phonenumber}"></p>
+        </div>
+        <div class="field">
+            <label for="password">Пароль</label>
+            <input id="password" type="password" th:field="*{password}" autocomplete="new-password" required>
+            <p class="hint">От 8 до 20 символов: латинские буквы, цифры и хотя бы один спецсимвол.</p>
+            <p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        </div>
+        <button class="btn" type="submit">Зарегистрироваться</button>
+    </form>
+
+    <div class="links">
+        <span>Уже есть аккаунт? <a th:href="@{/login}">Войти</a></span>
+    </div>
+</main>
+</body>
+</html>

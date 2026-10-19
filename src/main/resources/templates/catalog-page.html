@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Каталог — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+</head>
+<body class="top">
+<main class="card wide">
+    <h1>Каталог книг</h1>
+    <p class="subtitle">Выберите книгу и нажмите «Забронировать» — бронь появится в разделе «Мои брони».</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>ISBN</th>
+                <th>Издательство</th>
+                <th>Год</th>
+                <th class="action-cell"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.isbn}"></td>
+                <td th:text="${book.publisher}"></td>
+                <td th:text="${book.publicationYear}"></td>
+                <td class="action-cell">
+                    <form th:action="@{/book-reservation}" method="post">
+                        <input type="hidden" name="bookId" th:value="${book.id}">
+                        <button class="btn btn-small" type="submit">Забронировать</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="empty" th:if="${#lists.isEmpty(books)}">В каталоге пока нет книг.</p>
+    </div>
+
+    <div class="links">
+        <a th:href="@{/}">На главную</a>
+        <a th:href="@{/reader/my-reservations}">Мои брони</a>
+        <a th:href="@{/reader/my-loans}">Мои выдачи</a>
+        <a th:href="@{/deleteAccount}" style="color:#c0392b;">Удалить аккаунт</a>
+    </div>
+</main>
+</body>
+</html>

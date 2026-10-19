@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Восстановление пароля — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Восстановление пароля</h1>
+    <p class="subtitle">Укажите почту аккаунта — мы отправим код для сброса пароля.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/recovery}" method="post">
+        <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/login}">Назад</a>
+            <button class="btn" type="submit">Отправить код</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

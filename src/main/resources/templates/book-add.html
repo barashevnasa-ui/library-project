@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Добавление книги — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="top">
+<main class="card medium">
+    <h1>Добавление книги</h1>
+    <p class="subtitle">Новая книга появится в каталоге, все копии будут доступны для выдачи.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/book-add}" th:object="${book}" method="post" novalidate>
+        <div class="field">
+            <label for="title">Название</label>
+            <input id="title" type="text" th:field="*{title}" required>
+            <p class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div class="field">
+            <label for="isbn">ISBN</label>
+            <input id="isbn" type="text" th:field="*{isbn}" placeholder="978-5-17-118366-6" autocomplete="off" required>
+            <p class="field-error" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></p>
+        </div>
+        <div class="field">
+            <label for="publisher">Издательство</label>
+            <input id="publisher" type="text" th:field="*{publisher}" required>
+            <p class="field-error" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"></p>
+        </div>
+        <div class="grid-2">
+            <div class="field">
+                <label for="publicationYear">Год издания</label>
+                <input id="publicationYear" type="number" th:field="*{publicationYear}" min="1000" max="2100" required>
+                <p class="field-error" th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></p>
+            </div>
+            <div class="field">
+                <label for="totalCopies">Количество копий</label>
+                <input id="totalCopies" type="number" th:field="*{totalCopies}" min="1" required>
+                <p class="field-error" th:if="${#fields.hasErrors('totalCopies')}" th:errors="*{totalCopies}"></p>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Авторы</label>
+            <div class="checklist">
+                <label class="check" th:each="author : ${authors}">
+                    <input type="checkbox" th:field="*{authorsId}" th:value="${author.id}">
+                    <span th:text="${author.name}"></span>
+                </label>
+                <p class="empty" th:if="${#lists.isEmpty(authors)}">Авторов пока нет в базе.</p>
+            </div>
+            <p class="field-error" th:if="${#fields.hasErrors('authorsId')}" th:errors="*{authorsId}"></p>
+        </div>
+
+        <div class="field">
+            <label>Жанры</label>
+            <div class="checklist">
+                <label class="check" th:each="genre : ${genres}">
+                    <input type="checkbox" th:field="*{genresId}" th:value="${genre.id}">
+                    <span th:text="${genre.name}"></span>
+                </label>
+                <p class="empty" th:if="${#lists.isEmpty(genres)}">Жанров пока нет в базе.</p>
+            </div>
+            <p class="field-error" th:if="${#fields.hasErrors('genresId')}" th:errors="*{genresId}"></p>
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/librarian}">Отмена</a>
+            <button class="btn" type="submit">Добавить в каталог</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

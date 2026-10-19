@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Выдача по брони — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="top">
+<main class="card wide">
+    <h1>Выдача книги по брони</h1>
+    <p class="subtitle">Найдите читателя по номеру билета и выберите бронь для выдачи.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/reservation-issue/search}" method="get">
+        <div class="actions inline">
+            <div class="field">
+                <label for="cardNumber">Номер читательского билета</label>
+                <input id="cardNumber" type="search" name="cardNumber" th:value="${cardNumber}" autocomplete="off" required>
+            </div>
+            <button class="btn" type="submit">Найти брони</button>
+        </div>
+    </form>
+
+    <div class="table-wrap" th:if="${bookings != null and !#lists.isEmpty(bookings)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Книга</th>
+                <th>ISBN</th>
+                <th class="action-cell"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.book.title}"></td>
+                <td th:text="${booking.book.isbn}"></td>
+                <td class="action-cell">
+                    <form th:action="@{/reservation-issue}" method="post">
+                        <input type="hidden" name="bookingId" th:value="${booking.id}">
+                        <button class="btn btn-small" type="submit">Выдать</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="links">
+        <a th:href="@{/librarian}">В кабинет библиотекаря</a>
+    </div>
+</main>
+</body>
+</html>

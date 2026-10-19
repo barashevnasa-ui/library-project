@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ru">
+
+<!-- Общий <head>: именно здесь должна подключаться таблица стилей,
+     т.к. th:replace="head(...)" на страницах полностью заменяет их <head> -->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+<header class="topbar" th:fragment="topbar">
+    <span class="logo">📚 Библиотека</span>
+    <nav>
+        <a th:href="@{/books}">Каталог</a>
+
+        <th:block sec:authorize="hasRole('READER')">
+            <a th:href="@{/reservations}">Бронирование</a>
+            <a th:href="@{/profile}">Профиль</a>
+        </th:block>
+
+        <th:block sec:authorize="hasRole('LIBRARIAN')">
+            <a th:href="@{/loans}">Выдачи</a>
+            <a th:href="@{/loans/new}">Выдать книгу</a>
+            <a th:href="@{/books/new}">Добавить книгу</a>
+        </th:block>
+
+        <th:block sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}">Войти</a>
+            <a th:href="@{/register}">Регистрация</a>
+        </th:block>
+
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+            <button type="submit" class="linkbtn">Выйти</button>
+        </form>
+    </nav>
+</header>
+</body>
+</html>
