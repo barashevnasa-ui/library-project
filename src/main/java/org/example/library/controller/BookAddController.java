@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /* Добавление книги в каталог (доступно только библиотекарю). */
 @Controller
-@ResponseBody
 public class BookAddController {
 
     @Autowired
