@@ -2,6 +2,7 @@ package org.example.library.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.library.dto.BookDto;
+import org.example.library.dto.WriteOffDto;
 import org.example.library.model.Author;
 import org.example.library.model.Book;
 import org.example.library.model.Genre;
@@ -55,5 +56,21 @@ public class BookService {
         book.setAuthors(authors);
         book.setGenres(genres);
         return bookRepository.save(book);
+    }
+
+    @Transactional
+    public void writeOffBook(WriteOffDto writeOffDto) {
+        Book book = bookRepository.findByIsbn(writeOffDto.getBookIsbn())
+                .orElseThrow(() -> new EntityNotFoundException("Книга не найдена."));
+
+        if (book.getAvailableCopies() < writeOffDto.getAmount()) {
+            throw new IllegalStateException(
+                    String.format("Невозможно списать %d шт. У книги '%s' на полке доступно только %d шт. (остальные на руках).",
+                            writeOffDto.getAmount(), book.getTitle(), book.getAvailableCopies())
+            );
+        }
+        book.setAvailableCopies(book.getAvailableCopies() - writeOffDto.getAmount());
+        book.setTotalCopies(book.getTotalCopies() - writeOffDto.getAmount());
+        bookRepository.save(book);
     }
 }

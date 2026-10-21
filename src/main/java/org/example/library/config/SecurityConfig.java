@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/registration", "/verify", "/recovery/**", "/error").permitAll()
                         // только библиотекарь
                         .requestMatchers("/librarian/**", "/issue", "/return",
-                                "/reservation-issue/**", "/book-add", "/author-add").hasRole("LIBRARIAN")
+                                "/reservation-issue/**", "/book-add", "/author-add", "/write-off").hasRole("LIBRARIAN")
                         // только читатель
                         .requestMatchers("/book-reservation", "/reader/**").hasRole("READER")
                         // остальное любой вошедший пользователь

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Списание книг — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card">
+    <h1>Списание книг</h1>
+    <p class="subtitle">Укажите ISBN и количество копий. Списать можно только те копии, которые сейчас на полке: книги на руках и в брони не учитываются.</p>
+
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <form th:action="@{/write-off}" th:object="${writeOff}" method="post" novalidate>
+        <div class="field">
+            <label for="bookIsbn">ISBN книги</label>
+            <input id="bookIsbn" type="text" th:field="*{bookIsbn}" autocomplete="off" required>
+            <p class="field-error" th:if="${#fields.hasErrors('bookIsbn')}" th:errors="*{bookIsbn}"></p>
+        </div>
+        <div class="field">
+            <label for="amount">Количество копий для списания</label>
+            <input id="amount" type="number" th:field="*{amount}" min="1" max="10000" required>
+            <p class="field-error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+        </div>
+        <label class="check">
+            <input type="checkbox" required> Я понимаю, что списание нельзя отменить
+        </label>
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/librarian}">Отмена</a>
+            <button class="btn btn-danger" type="submit">Списать</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

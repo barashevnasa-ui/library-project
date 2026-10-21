@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.example.library.dto.AuthorDto;
 import org.example.library.dto.BookDto;
+import org.example.library.dto.WriteOffDto;
 import org.example.library.model.Author;
 import org.example.library.model.Book;
 import org.example.library.repository.AuthorRepository;
@@ -15,10 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /* Добавление книги в каталог (доступно только библиотекарю). */
@@ -63,6 +61,34 @@ public class BookAddController {
         }
         fillReferenceData(model);
         return "book-add";
+    }
+
+    @GetMapping("/write-off")
+    public String showWriteOffForm(Model model) {
+        model.addAttribute("writeOff", new WriteOffDto());
+        return "write-off";
+    }
+
+    @PostMapping("/write-off")
+    public String writeOffBook(@Valid @ModelAttribute("writeOff") WriteOffDto writeOffDto,
+                               BindingResult bindingResult,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "write-off";
+        }
+        try {
+            bookService.writeOffBook(writeOffDto);
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Списано копий: " + writeOffDto.getAmount() + ".");
+            return "redirect:/librarian";
+
+        } catch (IllegalStateException | EntityNotFoundException e) {
+            model.addAttribute("globalError", e.getMessage());
+        } catch (RuntimeException e) {
+            model.addAttribute("globalError", "Произошла непредвиденная ошибка при списании.");
+        }
+        return "write-off";
     }
 
     private void fillReferenceData(Model model) {
