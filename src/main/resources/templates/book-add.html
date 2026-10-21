@@ -42,16 +42,19 @@
             </div>
         </div>
 
-        <div class="field">
-            <label>Авторы</label>
-            <div class="checklist">
-                <label class="check" th:each="author : ${authors}">
-                    <input type="checkbox" th:field="*{authorsId}" th:value="${author.id}">
-                    <span th:text="${author.name}"></span>
-                </label>
-                <p class="empty" th:if="${#lists.isEmpty(authors)}">Авторов пока нет в базе.</p>
-            </div>
-            <p class="field-error" th:if="${#fields.hasErrors('authorsId')}" th:errors="*{authorsId}"></p>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Выберите автора(-ов)
+            </button>
+            <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto;">
+                <li th:each="author : ${authors}" class="mb-2">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input me-2 author-cb" th:field="*{authorsId}" th:value="${author.id}">
+                        <span th:text="${author.name}"></span>
+                    </label>
+                </li>
+                <li th:if="${#lists.isEmpty(authors)}" class="text-muted">Авторов пока нет в базе.</li>
+            </ul>
         </div>
 
         <div class="field">

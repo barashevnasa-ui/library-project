@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Страница не найдена — Библиотека</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="card error-page">
+    <p class="error-code">404</p>
+    <h1>Страница не найдена</h1>
+    <p class="subtitle">Возможно, ссылка устарела или адрес введён с ошибкой. Проверьте адрес или вернитесь на главную.</p>
+
+    <div class="actions">
+        <a class="btn btn-secondary" href="javascript:history.back()">Назад</a>
+        <a class="btn" th:href="@{/}">На главную</a>
+    </div>
+</main>
+</body>
+</html>
